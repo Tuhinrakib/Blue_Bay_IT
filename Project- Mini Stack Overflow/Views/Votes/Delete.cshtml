@@ -1,0 +1,56 @@
+﻿@model Project__Mini_Stack_Overflow.Models.Vote
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center text-danger">Delete Vote</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h3 class="text-center text-warning">Are you sure you want to delete this vote?</h3>
+            <hr />
+            <h4 class="text-center">Vote Information</h4>
+            <dl class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.IsUpvote)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.IsUpvote)
+                </dd>
+
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.User)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.User.Email)
+                </dd>
+
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Question)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Question.Id)
+                </dd>
+
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Answer)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Answer.Id)
+                </dd>
+            </dl>
+
+            <div class="text-center">
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="submit" value="Delete" class="btn btn-danger btn-lg" />
+                </form>
+                <hr />
+                <a asp-action="Index" class="btn btn-secondary btn-sm">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>

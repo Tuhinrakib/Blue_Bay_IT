@@ -1,0 +1,59 @@
+﻿@model Project__Mini_Stack_Overflow.Models.Vote
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Create Vote</h1>
+
+<div class="container">
+    <h4 class="text-center">Vote Information</h4>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <!-- Upvote Checkbox -->
+                <div class="form-group form-check">
+                    <input class="form-check-input" asp-for="IsUpvote" />
+                    <label class="form-check-label" for="IsUpvote">
+                        @Html.DisplayNameFor(model => model.IsUpvote)
+                    </label>
+                    <span asp-validation-for="IsUpvote" class="text-danger"></span>
+                </div>
+
+                <!-- User Dropdown -->
+                <div class="form-group">
+                    <label asp-for="UserId" class="control-label"></label>
+                    <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                    <span asp-validation-for="UserId" class="text-danger"></span>
+                </div>
+
+                <!-- Question Dropdown -->
+                <div class="form-group">
+                    <label asp-for="QuestionId" class="control-label"></label>
+                    <select asp-for="QuestionId" class="form-control" asp-items="ViewBag.QuestionId"></select>
+                    <span asp-validation-for="QuestionId" class="text-danger"></span>
+                </div>
+
+                <!-- Answer Dropdown -->
+                <div class="form-group">
+                    <label asp-for="AnswerId" class="control-label"></label>
+                    <select asp-for="AnswerId" class="form-control" asp-items="ViewBag.AnswerId"></select>
+                    <span asp-validation-for="AnswerId" class="text-danger"></span>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group text-center">
+                    <input type="submit" value="Create" class="btn btn-primary btn-lg" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="text-center">
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

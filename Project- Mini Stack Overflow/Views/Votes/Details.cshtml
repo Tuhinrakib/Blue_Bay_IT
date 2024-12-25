@@ -1,0 +1,51 @@
+﻿@model Project__Mini_Stack_Overflow.Models.Vote
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Vote Details</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h4 class="text-center">Vote Information</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.IsUpvote)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.IsUpvote)
+                </dd>
+
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.User)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.User.Email)
+                </dd>
+
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Question)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Question.Id)
+                </dd>
+
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Answer)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Answer.Id)
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning btn-sm">Edit</a> |
+        <a asp-action="Index" class="btn btn-secondary btn-sm">Back to List</a>
+    </div>
+</div>

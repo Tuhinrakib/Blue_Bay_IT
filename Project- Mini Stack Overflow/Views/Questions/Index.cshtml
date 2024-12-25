@@ -1,0 +1,160 @@
+﻿@model IEnumerable<Project__Mini_Stack_Overflow.Models.Question>
+
+@{
+    ViewData["Title"] = "Question List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Question List</h1>
+
+<p class="text-center">
+    <a asp-action="Create" class="btn btn-success btn-lg" style="margin-bottom: 20px;">Ask a Question</a>
+</p>
+
+<!-- Search Bar -->
+<div class="input-group mb-3">
+    <input type="text" id="searchInput" class="form-control" placeholder="Search by title, description, or tags...">
+    <button id="searchButton" class="btn btn-primary">Search</button>
+</div>
+
+<!-- Sorting Options -->
+<div class="d-flex justify-content-end mb-3">
+    <select id="sortOptions" class="form-select w-auto">
+        <option value="default">Sort By</option>
+        <option value="title">Title (A-Z)</option>
+        <option value="votes">Votes (High to Low)</option>
+        <option value="date">Date (Newest First)</option>
+    </select>
+</div>
+
+<!-- Questions List -->
+<div id="questionsList">
+    @foreach (var item in Model)
+    {
+        <div class="question-item border p-3 mb-3 shadow-sm" data-votes="@item.Votes" data-date="@item.CreatedAt">
+            <div class="row">
+                <!-- Votes and Answers Count -->
+                <div class="col-md-2 text-center">
+                    <h4>@item.Tags</h4>
+                    <p class="text-info">@item.Votes Votes</p>
+                    <p class="text-info">@item?.AnswerCount Answer</p>
+                </div>
+
+                <!-- Question Details -->
+                <div class="col-md-10">
+                    <h4>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="text-dark">@item.Title</a>
+                    </h4>
+                    <p>@item.Description</p>
+                    <p class="text-muted">
+                        Asked by <strong>@item.User.Email</strong> on
+                        <span>@Html.DisplayFor(model => item.CreatedAt)</span>
+                    </p>
+                    <div>
+                        @* <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a> *@
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Details</a>
+                       @*  <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a> *@
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Pagination -->
+<div id="pagination" class="d-flex justify-content-center mt-3"></div>
+
+<!-- JavaScript for Pagination, Search, and Sorting -->
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const rowsPerPage = 5; // Number of items per page
+            let currentPage = 1;
+
+            const questionsList = document.getElementById("questionsList");
+            const items = Array.from(questionsList.children); // Get all question items
+            const pagination = document.getElementById("pagination");
+            const searchInput = document.getElementById("searchInput");
+            const searchButton = document.getElementById("searchButton");
+            const sortOptions = document.getElementById("sortOptions");
+
+            let filteredItems = [...items]; // Initially, all items are included
+
+            // Function to render the question items for the current page
+            function renderList(page) {
+                currentPage = page;
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+
+                // Hide all items first
+                items.forEach(item => (item.style.display = "none"));
+
+                // Show only the items for the current page
+                filteredItems.slice(start, end).forEach(item => (item.style.display = "block"));
+                renderPagination();
+            }
+
+            // Function to render the pagination buttons
+            function renderPagination() {
+                pagination.innerHTML = "";
+                const totalPages = Math.ceil(filteredItems.length / rowsPerPage);
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const button = document.createElement("button");
+                    button.className = "btn btn-outline-primary mx-1";
+                    button.textContent = i;
+                    button.onclick = () => renderList(i);
+
+                    if (i === currentPage) {
+                        button.classList.add("active");
+                    }
+
+                    pagination.appendChild(button);
+                }
+
+                // Hide pagination if there's only one page
+                pagination.style.display = totalPages > 1 ? "flex" : "none";
+            }
+
+            // Function to filter items based on search input
+            function filterList() {
+                const query = searchInput.value.toLowerCase();
+
+                filteredItems = items.filter(item => {
+                    const title = item.querySelector("h4 a").textContent.toLowerCase();
+                    const description = item.querySelector("p").textContent.toLowerCase();
+                    const tags = item.querySelector("h4").textContent.toLowerCase();
+
+                    return title.includes(query) || description.includes(query) || tags.includes(query);
+                });
+
+                renderList(1); // Reset to the first page after filtering
+            }
+
+            // Function to sort items based on selected option
+            function sortList() {
+                const sortBy = sortOptions.value;
+
+                filteredItems.sort((a, b) => {
+                    if (sortBy === "title") {
+                        return a.querySelector("h4 a").textContent.localeCompare(b.querySelector("h4 a").textContent);
+                    } else if (sortBy === "votes") {
+                        return parseInt(b.dataset.votes) - parseInt(a.dataset.votes); // Ensure votes are sorted numerically
+                    } else if (sortBy === "date") {
+                        return new Date(b.dataset.date) - new Date(a.dataset.date); // Sort by date in descending order
+                    }
+                    return 0; // Default sorting (no sorting)
+                });
+
+                renderList(1); // Reset to the first page after sorting
+            }
+
+            // Add event listeners for the search and sort options
+            searchButton.addEventListener("click", filterList);
+            sortOptions.addEventListener("change", sortList);
+
+            // Initial render
+            renderList(1);
+        });
+    </script>
+}

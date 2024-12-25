@@ -1,0 +1,64 @@
+﻿@model Project__Mini_Stack_Overflow.Models.Question
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Question</h4>
+<hr />
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <!-- Title Field -->
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" placeholder="Enter the question title" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <!-- Description Field -->
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control" rows="4" placeholder="Enter the question description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <!-- Tags Field -->
+                <div class="form-group">
+                    <label asp-for="Tags" class="control-label"></label>
+                    <input asp-for="Tags" class="form-control" placeholder="Enter tags separated by commas" />
+                    <span asp-validation-for="Tags" class="text-danger"></span>
+                </div>
+
+                <!-- CreatedAt Field -->
+                <div class="form-group">
+                    <label asp-for="CreatedAt" class="control-label"></label>
+                    <input asp-for="CreatedAt" type="date" class="form-control" />
+                    <span asp-validation-for="CreatedAt" class="text-danger"></span>
+                </div>
+
+                <!-- UserId Field -->
+                <div class="form-group">
+                    <label asp-for="User" class="control-label"></label>
+                    <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Back to List Link -->
+    <div class="mt-3">
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

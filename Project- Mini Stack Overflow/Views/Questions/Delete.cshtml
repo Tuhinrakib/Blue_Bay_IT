@@ -1,0 +1,59 @@
+﻿@model Project__Mini_Stack_Overflow.Models.Question
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Delete</h1>
+
+<h3 class="text-center">Are you sure you want to delete this?</h3>
+
+<div class="container">
+    <h4>Question Information</h4>
+
+    <dl class="row">
+        <dt class="col-sm-3 font-weight-bold">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt class="col-sm-3 font-weight-bold">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt class="col-sm-3 font-weight-bold">
+            @Html.DisplayNameFor(model => model.Tags)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Tags)
+        </dd>
+
+        <dt class="col-sm-3 font-weight-bold">
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+
+        <dt class="col-sm-3 font-weight-bold">
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
+    </dl>
+</div>
+
+<div class="text-center mt-4">
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger btn-lg">Delete</button> |
+        <a asp-action="Index" class="btn btn-secondary btn-lg">Back to List</a>
+    </form>
+</div>

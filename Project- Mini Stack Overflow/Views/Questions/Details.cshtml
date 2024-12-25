@@ -1,0 +1,126 @@
+﻿@model Project__Mini_Stack_Overflow.Models.Question
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Question Details</h1>
+
+<div class="container">
+    <h4>Question Information</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3 font-weight-bold">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt class="col-sm-3 font-weight-bold">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt class="col-sm-3 font-weight-bold">
+            @Html.DisplayNameFor(model => model.Tags)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Tags)
+        </dd>
+
+        <dt class="col-sm-3 font-weight-bold">
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+
+        <dt class="col-sm-3 font-weight-bold">
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
+    </dl>
+
+    <h4 class="mt-4">Answers</h4>
+    <hr />
+    @if (Model.Answers != null && Model.Answers.Any())
+    {
+        <div class="list-group">
+            @foreach (var answer in Model.Answers)
+            {
+                <div class="list-group-item">
+                    <p>@answer.AnswerText</p>
+                    <small class="text-muted">
+                        By @answer.User?.Email on @answer.CreatedAt.ToString("yyyy-MM-dd")
+                    </small>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>No answers available for this question.</p>
+    }
+
+    <h4 class="mt-4">Votes</h4>
+    <hr />
+    <div class="d-flex justify-content-between">
+        <div>
+            <button id="upvoteBtn" class="btn btn-success"
+            @if (ViewData["HasVoted"] != null && (bool)ViewData["HasVoted"] == true)
+            {
+                <text>disabled</text>
+            }
+            onclick="submitVote(true)">Upvote</button>
+            <button id="downvoteBtn" class="btn btn-danger"
+            @if (ViewData["HasVoted"] != null && (bool)ViewData["HasVoted"] == true)
+            {
+                <text>disabled</text>
+            }
+            onclick="submitVote(false)">Downvote</button>
+        </div>
+        <div>
+            <span>Total Votes: <span id="voteCount">@Model.VotesCount</span></span>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    @* <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning btn-lg">Edit</a> *@
+    <a asp-action="Index" class="btn btn-secondary btn-lg">Back to List</a>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        function submitVote(isUpvote) {
+            var questionId = @Model.Id;
+            $.ajax({
+                url: '@Url.Action("Vote", "Questions")',
+                type: 'POST',
+                data: {
+                    questionId: questionId,
+                    isUpvote: isUpvote
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // Update the vote count without reloading the page
+                        $("#voteCount").text(response.newVoteCount);
+                        // Disable the vote buttons after voting
+                        $("#upvoteBtn, #downvoteBtn").prop('disabled', true);
+                    } else {
+                        alert(response.message); // Show the message if user already voted
+                    }
+                },
+                error: function () {
+                    alert("An error occurred while processing your vote.");
+                }
+            });
+        }
+    </script>
+}

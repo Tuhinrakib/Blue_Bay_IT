@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Project_Stack_Overflow</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Project__Mini_Stack_Overflow.styles.css" asp-append-version="true" />
+    <style>
+        /* General body styling */
+        body {
+            background-color: #f8f9fa; /* Light background color for the body */
+            font-family: Arial, sans-serif; /* Ensure a clean font */
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background-color: #ffffff; /* White background for navbar */
+            border-bottom: 1px solid #ddd; /* Subtle border for separation */
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #007bff; /* Custom blue color for branding */
+        }
+
+        .navbar-nav .nav-link {
+            font-size: 1rem;
+            color: #343a40; /* Dark text for links */
+            padding: 8px 15px; /* Add padding to nav items */
+        }
+
+            .navbar-nav .nav-link:hover {
+                color: #007bff; /* Hover color */
+                text-decoration: underline; /* Underline on hover */
+            }
+
+        /* Main content area */
+        .container {
+            padding-top: 20px; /* Add space from navbar */
+        }
+
+        /* Footer styling */
+        footer {
+            background-color: #343a40; /* Dark footer background */
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+            footer a {
+                color: #007bff; /* Link color in footer */
+            }
+
+                footer a:hover {
+                    text-decoration: underline; /* Underline on hover */
+                }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Project_Stack_Overflow</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Questions" asp-action="Index">Question</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Answers" asp-action="Index">Answer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Votes" asp-action="Index">Vote</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">User</a>
+                        </li>
+                    </ul>
+                </div>
+                <partial name="_LoginPartial" />
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - Project_Stack_Overflow - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
